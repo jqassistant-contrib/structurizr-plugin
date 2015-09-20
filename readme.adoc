@@ -1,6 +1,30 @@
-=== jQAssistant Structurizr Plugin
+== jQAssistant Structurizr Plugin
 
 Integration for https://twitter.com/simonbrown[Simon Brown]'s https://structurizr.com/[Structurizr] Architecture DSL.
 
+*This is currently work in progress and not yet functional*
+
 Can read Structurizr Workspaces into jQAssistant's graph model, both the ones retrieved from the structurizr API as 
 well as Workspaces returned from (static) methods in scanned project classes.
+
+=== Supported Model Elementes
+
+* model/StructurizrComponent
+* model/StructurizrContainer
+* model/StructurizrDescriptor
+* model/StructurizrElement
+* model/StructurizrModel
+* model/StructurizrPerson
+* model/StructurizrRelationship
+* model/StructurizrSoftwareSystem
+* model/StructurizrWorkspace
+* model/TagDescriptor
+* model/TaggableDescriptor
+
+=== Useful Base Types
+
+* model/base/CanonicalName
+* model/base/Description
+* model/base/IdDescriptor
+* model/base/Located
+* model/base/Technology
