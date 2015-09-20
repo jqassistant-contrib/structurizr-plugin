@@ -1,0 +1,38 @@
+== Structurizr jQAssistant plugin
+
+=== Structurizr & C4 Architecture Models
+
+Simon Brown created Structurizr which is a platform to create and host C4 architecture models
+There is a Java-API / DSL to create, render and push these models via the http://structurizr.com APIs.
+
+Those models have 4 components, which form trees and dependency networks.
+
+* Workspace
+* System
+* Container
+* Component
+* Class
+
+[source,java]
+----
+----
+
+=== Plugin
+
+The plugin is triggered by a structrizr.properties file with connection info to the http://structurizr.com APIs.
+It downloads the workspace and creates graph representations for all described elements.
+
+Classes are mapped to jQAssistant Types.
+
+
+=== Plan
+
+Also support local Java setups of structurizr APIs
+
+=== Mapping Rules
+
+Should components be mapped to maven modules? via artifact-id ? or to packages
+Should containers be mapped to deployment artifacts?
+Should systems be mapped to
+
+As theses are up to individual understanding and decomposition of systems they can be p
