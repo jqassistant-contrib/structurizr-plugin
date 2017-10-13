@@ -18,7 +18,7 @@ public class TechTribes {
         // and upload the model to structurizr.com
         StructurizrClient structurizrClient = new StructurizrClient("https://api.structurizr.com", "key", "secret");
         workspace.setId(1234); // this would be your workspace ID
-        structurizrClient.putWorkspace(workspace);
+        structurizrClient.putWorkspace(1234,workspace);
     }
 
     public static Workspace createTechTribesWorkspace() {
@@ -50,7 +50,7 @@ public class TechTribes {
 
         // now create the system context view based upon the model
         ViewSet viewSet = workspace.getViews();
-        SystemContextView contextView = viewSet.createContextView(techTribes);
+        SystemContextView contextView = viewSet.createSystemContextView(techTribes,"techtribes","description");
         contextView.addAllSoftwareSystems();
         contextView.addAllPeople();
         return workspace;

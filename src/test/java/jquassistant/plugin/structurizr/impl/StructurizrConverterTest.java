@@ -1,7 +1,8 @@
 package jquassistant.plugin.structurizr.impl;
 
 import com.buschmais.jqassistant.core.store.api.Store;
-import com.buschmais.jqassistant.core.store.impl.GraphDbStore;
+import com.buschmais.jqassistant.core.store.api.StoreConfiguration;
+import com.buschmais.jqassistant.core.store.api.StoreFactory;
 import com.structurizr.Workspace;
 import com.structurizr.model.*;
 import jquassistant.plugin.structurizr.TechTribes;
@@ -13,9 +14,10 @@ import org.junit.Test;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.test.TestGraphDatabaseFactory;
 
+import java.net.URI;
 import java.util.Arrays;
+import java.util.Properties;
 
-import static java.util.Arrays.asList;
 import static org.junit.Assert.*;
 
 /**
@@ -25,13 +27,18 @@ import static org.junit.Assert.*;
 public class StructurizrConverterTest {
 
     private GraphDatabaseService db;
-    private GraphDbStore store;
+    private Store store;
 
     @Before
     public void setUp() throws Exception {
         db = new TestGraphDatabaseFactory().newImpermanentDatabase();
-        store = new GraphDbStore(db);
-        store.start(Arrays.<Class<?>>asList(
+        Properties props =new Properties();
+        props.put("org.neo4j.graphdb.GraphDatabaseService",db);
+        StoreConfiguration.StoreConfigurationBuilder config =
+                StoreConfiguration.builder().uri(new URI("memory://local")).properties(props);
+        this.store = StoreFactory.getStore(config.build());
+        this.store.start(Arrays.<Class<?>>asList(
+                StructurizrCodeElement.class,
                 StructurizrComponent.class,
                 StructurizrContainer.class,
                 StructurizrWorkspace.class,
@@ -53,7 +60,7 @@ public class StructurizrConverterTest {
 
     @After
     public void tearDown() throws Exception {
-        store.stop();
+        if (store!=null) store.stop();
         if (db!=null) db.shutdown();
     }
 
@@ -64,7 +71,7 @@ public class StructurizrConverterTest {
         StructurizrWorkspace sWorkspace = new StructurizrConverter(store).convertWorkspace(workspace);
         assertEquals(workspace.getDescription(), sWorkspace.getDescription());
         assertEquals(workspace.getName(), sWorkspace.getName());
-        assertEquals(workspace.getId(), Long.parseLong(sWorkspace.getId()));
+        assertEquals(workspace.getId(), Long.parseLong(sWorkspace.getElementId().toString()));
         store.commitTransaction();
     }
 
@@ -96,28 +103,28 @@ public class StructurizrConverterTest {
     }
 
     private void assetElement(Element element, StructurizrElement sElement) {
-        assertEquals(element.getId(), sElement.getId());
+        assertEquals(element.getId(), sElement.getElementId());
         assertEquals(element.getName(), sElement.getName());
         assertEquals(element.getDescription(), sElement.getDescription());
     }
 
     @Test
     public void testConvertContainer() throws Exception {
-        Component component = new Component();
-        component.setImplementationType("impl.ImplementationType");
-        component.setInterfaceType("api.InterfaceType");
-        component.setSourcePath("SourcePath");
+        SoftwareSystem softwaresystem = new Model().addSoftwareSystem(Location.Internal, "TechTribes", "App");
+        Container container = softwaresystem.addContainer("ContainerName", "ContainerDesc", "ContainerTech");
+        Component component = container.addComponent("ComponentName", "ComponentDesc");
+        component.setType("impl.ImplementationType");
+        component.setUrl("http://host/path");
+        component.setSize(1234);
         component.setTechnology("Technology");
-        component.setDescription("ComponentDesc");
-        component.setName("ComponentName");
         store.beginTransaction();
         StructurizrComponent sComponent = new StructurizrConverter(store).convertComponent(component);
         assetElement(component,sComponent);
         assertEquals(component.getTechnology(), sComponent.getTechnology());
-        assertEquals(component.getInterfaceType(), sComponent.getInterfaceType());
-        assertEquals(component.getPackage(), sComponent.getPackage());
-        assertEquals(component.getImplementationType(), sComponent.getImplementationType());
-        assertEquals(component.getSourcePath(), sComponent.getSourcePath());
+        assertEquals(component.getType(), sComponent.getType());
+//        assertEquals(component.getPackage(), sComponent.getPackage());
+        assertEquals(component.getSize(), sComponent.getSize());
+        assertEquals(component.getUrl(), sComponent.getUrl());
         store.commitTransaction();
     }
 }

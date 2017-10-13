@@ -9,9 +9,9 @@
     <version>1.0-SNAPSHOT</version>
 	
 	<properties>
-		<structurizr.version>0.3.1</structurizr.version>
-		<jqa.version>1.0.0</jqa.version>
-		<neo4j.version>2.2.0</neo4j.version>
+		<structurizr.version>1.0.0-RC3</structurizr.version>
+		<jqa.version>1.3.0</jqa.version>
+		<neo4j.version>3.1.3</neo4j.version>
 
 	</properties>
 
@@ -19,28 +19,35 @@
     <dependencies>
         <dependency>
             <groupId>com.structurizr</groupId>
-            <artifactId>structurizr-client</artifactId>
-            <version>${structurizr.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.structurizr</groupId>
             <artifactId>structurizr-core</artifactId>
             <version>${structurizr.version}</version>
         </dependency>
         <dependency>
             <groupId>com.buschmais.jqassistant.core</groupId>
-            <artifactId>jqassistant.core.scanner</artifactId>
+            <artifactId>scanner</artifactId>
             <version>${jqa.version}</version>
         </dependency>
         <dependency>
             <groupId>com.buschmais.jqassistant.plugin</groupId>
-            <artifactId>jqassistant.plugin.common</artifactId>
-            <version>${jqa.version}</version>
+            <artifactId>common</artifactId>
+            <version>1.3</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.neo4j</groupId>
+            <artifactId>neo4j-kernel</artifactId>
+            <version>${neo4j.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.buschmais.xo</groupId>
+            <artifactId>xo.neo4j.embedded</artifactId>
+            <version>0.8.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -79,9 +86,9 @@
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
-            <id>bintray-structurizr-maven</id>
+            <id>bintray-structurizr</id>
             <name>bintray</name>
-            <url>http://dl.bintray.com/structurizr/maven</url>
+            <url>https://dl.bintray.com/structurizr/maven</url>
         </repository>
     </repositories>
 

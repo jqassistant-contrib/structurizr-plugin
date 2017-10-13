@@ -1,8 +1,7 @@
 package jquassistant.plugin.structurizr.api.model;
 
-import com.buschmais.jqassistant.core.store.api.model.NamedDescriptor;
+import com.buschmais.xo.neo4j.api.annotation.Label;
 import com.buschmais.xo.neo4j.api.annotation.Relation;
-import jquassistant.plugin.structurizr.api.model.base.IdDescriptor;
 
 import java.util.List;
 
@@ -10,6 +9,7 @@ import java.util.List;
  * @author mh
  * @since 06.03.15
  */
+@Label("Model")
 public interface StructurizrModel extends StructurizrDescriptor {
 
     @Relation("SYSTEM")

@@ -2,27 +2,30 @@ package jquassistant.plugin.structurizr.api.model;
 
 import com.buschmais.xo.neo4j.api.annotation.Label;
 import com.buschmais.xo.neo4j.api.annotation.Relation;
+import com.structurizr.model.CodeElementRole;
 import jquassistant.plugin.structurizr.api.model.base.Technology;
 
 /**
  * @author mh
  * @since 06.03.15
  */
-@Label("Component")
-public interface StructurizrComponent extends StructurizrElement, Technology {
+@Label("CodeElement")
+public interface StructurizrCodeElement extends StructurizrElement {
 
-    @Relation("CONTAINER")
+    @Relation("COMPONENT")
     @Relation.Outgoing
-    StructurizrContainer getContainer();
-    void setContainer(StructurizrContainer container);
+    StructurizrComponent getComponent();
+    void setComponent(StructurizrComponent component);
 
     String getType();
     void setType(String interfaceType);
 
-// tries to instantiate the class
-//    void setPackage(String aPackage);
-//    String getPackage();
+    void setLanguage(String language);
+    String getLanguage();
 
     void setSize(long size);
     long getSize();
+
+    void setRole(CodeElementRole role);
+    CodeElementRole getRole();
 }

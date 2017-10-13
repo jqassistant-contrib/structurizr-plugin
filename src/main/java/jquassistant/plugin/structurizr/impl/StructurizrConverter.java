@@ -22,7 +22,7 @@ public class StructurizrConverter {
 
     public StructurizrWorkspace convertWorkspace(Workspace workspace) {
         StructurizrWorkspace structurizrWorkspace = store.create(StructurizrWorkspace.class);
-        structurizrWorkspace.setId(String.valueOf(workspace.getId()));
+        structurizrWorkspace.setElementId(String.valueOf(workspace.getId()));
         structurizrWorkspace.setDescription(workspace.getDescription());
         structurizrWorkspace.setName(workspace.getName());
         structurizrWorkspace.setModel(convertModel(workspace.getModel()));
@@ -54,18 +54,22 @@ public class StructurizrConverter {
 
     private <T extends StructurizrElement> T createElement(Element element, Class<T> type) {
         T sElement = store.create(type);
-        sElement.setId(element.getId());
+        sElement.setElementId(element.getId());
         sElement.setName(element.getName());
         sElement.setDescription(element.getDescription());
+        sElement.setUrl(element.getUrl());
+        sElement.setCanonicalName(element.getCanonicalName());
         List<TagDescriptor> tags = new ArrayList<>();
-        for (String tagName : element.getTags().split(",")) {
+        for (String tagName : element.getTags().split(",\\s*")) {
             TagDescriptor tag = store.create(TagDescriptor.class);
-            tag.setName(tagName);
+            tag.setName(tagName.trim());
             tags.add(tag);
         }
         sElement.setTags(tags);
 // todo relationships ??
 //        sElement.setRelationships(convertRelationships(store, element));
+//        sElement.set(element.getParent())
+//        sElement.set(element.getModel())
         return sElement;
     }
 
@@ -79,6 +83,7 @@ public class StructurizrConverter {
 
     StructurizrSoftwareSystem convertSystem(SoftwareSystem system) {
         StructurizrSoftwareSystem sSystem = createElement(system, StructurizrSoftwareSystem.class);
+        sSystem.setLocation(system.getLocation());
         sSystem.setContainers(convertContainers(system, sSystem));
         return sSystem;
     }
@@ -89,7 +94,6 @@ public class StructurizrConverter {
             StructurizrContainer sContainer = createElement(container, StructurizrContainer.class);
             sContainer.setSystem(sSystem);
             sContainer.setTechnology(container.getTechnology());
-            sContainer.setCanonicalName(container.getCanonicalName());
             sContainer.setComponents(convertComponents(container, sContainer));
             containers.add(sContainer);
         }
@@ -110,15 +114,35 @@ public class StructurizrConverter {
         StructurizrComponent sComponent = createElement(component, StructurizrComponent.class);
 
         // todo, these are fqn classes ??
-        sComponent.setImplementationType(component.getImplementationType());
-        sComponent.setInterfaceType(component.getInterfaceType());
-        // todo workaround
-        if (component.getInterfaceType().indexOf('.') != -1) {
-            sComponent.setPackage(component.getPackage());
+        String type = component.getType();
+        if (type != null) {
+            sComponent.setType(type);
+            // todo workaround
+            if (type.indexOf('.') != -1) {
+                // tries to instantiate the class
+                // sComponent.setPackage(component.getPackage());
+            }
         }
-        sComponent.setSourcePath(component.getSourcePath());
         sComponent.setTechnology(component.getTechnology());
+        sComponent.setSize(component.getSize());
+
+        for (CodeElement codeElement : component.getCode()) {
+            StructurizrCodeElement sCodeElement = convertCodeElement(codeElement);
+            sCodeElement.setComponent(sComponent);
+        }
         return sComponent;
+    }
+
+    private StructurizrCodeElement convertCodeElement(CodeElement codeElement) {
+        StructurizrCodeElement sElement = store.create(StructurizrCodeElement.class);
+        sElement.setName(codeElement.getName());
+        sElement.setDescription(codeElement.getDescription());
+        sElement.setUrl(codeElement.getUrl());
+        sElement.setSize(codeElement.getSize());
+        sElement.setLanguage(codeElement.getLanguage());
+        sElement.setRole(codeElement.getRole());
+        sElement.setType(codeElement.getType());
+        return sElement;
     }
 
     // todo replace with real relationships, map rel-name to rel-type or alternative target-entity-type-name
@@ -126,7 +150,7 @@ public class StructurizrConverter {
         List<StructurizrRelationship> relationships = new ArrayList<>();
         for (Relationship relationship : element.getRelationships()) {
             StructurizrRelationship sRelationship = store.create(StructurizrRelationship.class);
-            sRelationship.setId(relationship.getId());
+            sRelationship.setElementId(relationship.getId());
             sRelationship.setDescription(relationship.getDescription());
             sRelationship.setFromElement(createElement(relationship.getSource(), StructurizrElement.class));
             sRelationship.setToElement(createElement(relationship.getDestination(), StructurizrElement.class));

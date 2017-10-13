@@ -12,15 +12,7 @@ public enum StructurizrScope implements Scope {
     /**
      * Defines the scope of a connection to a database.
      */
-    CONNECTION {
-        @Override
-        public void create(ScannerContext context) {
-        }
-
-        @Override
-        public void destroy(ScannerContext context) {
-        }
-    };
+    CONNECTION;
 
     @Override
     public String getPrefix() {
