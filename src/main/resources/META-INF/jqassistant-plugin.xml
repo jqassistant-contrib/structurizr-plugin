@@ -1,22 +1,22 @@
 <v1:jqassistant-plugin xmlns:v1="http://www.buschmais.com/jqassistant/core/plugin/schema/v1.0" name="STRUCTURIZR">
     <description>Provides a scanner for importing the c4 architectural model described with the Structurizr DSL/API.</description>
     <model>
-        <class>jquassistant.plugin.structurizr.api.model.StructurizrComponent</class>
-        <class>jquassistant.plugin.structurizr.api.model.StructurizrContainer</class>
-        <class>jquassistant.plugin.structurizr.api.model.StructurizrDescriptor</class>
-        <class>jquassistant.plugin.structurizr.api.model.StructurizrElement</class>
-        <class>jquassistant.plugin.structurizr.api.model.StructurizrModel</class>
-        <class>jquassistant.plugin.structurizr.api.model.StructurizrPerson</class>
-        <class>jquassistant.plugin.structurizr.api.model.StructurizrRelationship</class>
-        <class>jquassistant.plugin.structurizr.api.model.StructurizrSoftwareSystem</class>
-        <class>jquassistant.plugin.structurizr.api.model.StructurizrWorkspace</class>
-        <class>jquassistant.plugin.structurizr.api.model.TagDescriptor</class>
-        <class>jquassistant.plugin.structurizr.api.model.TaggableDescriptor</class>
+        <class>org.jqassistant.contrib.plugin.structurizr.api.model.StructurizrComponent</class>
+        <class>org.jqassistant.contrib.plugin.structurizr.api.model.StructurizrContainer</class>
+        <class>org.jqassistant.contrib.plugin.structurizr.api.model.StructurizrDescriptor</class>
+        <class>org.jqassistant.contrib.plugin.structurizr.api.model.StructurizrElement</class>
+        <class>org.jqassistant.contrib.plugin.structurizr.api.model.StructurizrModel</class>
+        <class>org.jqassistant.contrib.plugin.structurizr.api.model.StructurizrPerson</class>
+        <class>org.jqassistant.contrib.plugin.structurizr.api.model.StructurizrRelationship</class>
+        <class>org.jqassistant.contrib.plugin.structurizr.api.model.StructurizrSoftwareSystem</class>
+        <class>org.jqassistant.contrib.plugin.structurizr.api.model.StructurizrWorkspace</class>
+        <class>org.jqassistant.contrib.plugin.structurizr.api.model.TagDescriptor</class>
+        <class>org.jqassistant.contrib.plugin.structurizr.api.model.TaggableDescriptor</class>
     </model>
     <scope>
-        <class>jquassistant.plugin.structurizr.StructurizrScope</class>
+        <class>org.jqassistant.contrib.plugin.structurizr.StructurizrScope</class>
     </scope>
     <scanner>
-        <class>jquassistant.plugin.structurizr.impl.StructurizrScannerPlugin</class>
+        <class>org.jqassistant.contrib.plugin.structurizr.impl.StructurizrScannerPlugin</class>
     </scanner>
 </v1:jqassistant-plugin>

@@ -9,9 +9,9 @@
         <version>1.0.0</version>
     </parent>
 
-    <groupId>jqassistant</groupId>
-    <artifactId>structurizr-plugin</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <groupId>org.jqassistant.contrib.plugin</groupId>
+    <artifactId>jqassistant-structurizr-plugin</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
 
     <name>jQAssistant Structurizr Plugin</name>
     <description>The jQAssistant plugin for integration with Structurizr.</description>
@@ -38,9 +38,10 @@
     </scm>
 
     <properties>
-		<structurizr.version>1.0.0-RC3</structurizr.version>
+		<structurizr.version>1.0.0-RC4</structurizr.version>
 		<jqa.version>1.3.0</jqa.version>
 		<neo4j.version>3.1.3</neo4j.version>
+        <slf4j.version>1.7.12</slf4j.version>
 	</properties>
 
     <dependencies>
@@ -62,7 +63,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <version>4.12</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -91,32 +92,12 @@
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.2</version>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
-    <repositories>
-        <repository>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <id>bintray-structurizr</id>
-            <name>bintray</name>
-            <url>https://dl.bintray.com/structurizr/maven</url>
-        </repository>
-    </repositories>
-
 </project>
